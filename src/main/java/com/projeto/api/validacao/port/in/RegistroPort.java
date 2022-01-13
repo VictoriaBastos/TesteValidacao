@@ -2,8 +2,8 @@ package com.projeto.api.validacao.port.in;
 
 import com.projeto.api.validacao.domain.Registro;
 
-public interface RegistroInPort {
+public interface RegistroPort {
 
-    public boolean adicionarRegistro(Registro registro);
+    boolean adicionarRegistro(Registro registro);
 
 }

@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 @Data
 public class RegistroDTO {
 
-    @NotNull @NotEmpty
+    @NotNull @NotEmpty @Length(min=9)
     private String password;
 
     @NotNull @NotEmpty

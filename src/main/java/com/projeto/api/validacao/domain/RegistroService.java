@@ -1,82 +1,61 @@
 package com.projeto.api.validacao.domain;
 
+import com.projeto.api.validacao.port.in.RegistroPort;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-public class RegistroService {
+public class RegistroService implements RegistroPort {
 
+    @Override
     public boolean adicionarRegistro(Registro registro) {
 
-    return false;
+        String senha = registro.getPassword();
+        String caractereEspecial = "!@#$%^&*()-+";
+
+        boolean tamanhoSuficiente = false;
+        if (senha.length() >= 9) {
+            tamanhoSuficiente = true;
+        }
+
+        boolean contemDigito = false;
+        boolean contemMinuscula = false;
+        boolean contemMaiuscula = false;
+        boolean contemCaractereEspecial = false;
+        boolean naoContemEspacamento = true;
+
+        for (int i = 0; i < senha.length(); i++) {
+            char ch = senha.charAt(i);
+            if (Character.isDigit(ch)) {
+                contemDigito = true;
+            }
+            if (Character.isLowerCase(ch)) {
+                contemMinuscula = true;
+            }
+            if (Character.isUpperCase(ch)) {
+                contemMaiuscula = true;
+            }
+            if (Character.isSpaceChar(ch)) {
+                naoContemEspacamento = false;
+            }
+
+            for (int j = 0; j < caractereEspecial.length(); j++) {
+                char special = caractereEspecial.charAt(j);
+                if (ch == special) {
+                    contemCaractereEspecial = true;
+                }
+            }
+        }
+
+        if (tamanhoSuficiente &&
+                contemDigito &&
+                contemMinuscula &&
+                contemMaiuscula &&
+                naoContemEspacamento &&
+                contemCaractereEspecial) {
+            return true;
+        }
+        return false;
     }
 }
-
-//          FUNCIONANDO caracteresSuficientes
-//            String senha = registro.getPassword();
-//            boolean caracteresSuficientes = false;
-//            if (senha.length() >= 9) caracteresSuficientes = true;
-//            return caracteresSuficientes;
-
-        //FUNCIONANDO contemDigito
-//        String senha = registro.getPassword();
-//        boolean contemDigito = false;
-//        for (int i = 0; i < senha.length(); i++) {
-//            char letra = senha.charAt(i);
-//            if (Character.isDigit(letra)) contemDigito = true;}
-//            return contemDigito;
-
-        //FUNCIONANDO contemMinusculaeMaiuscula
-//         boolean contemMinuscula = false;
-//         boolean contemMaiuscula = false;
-//         boolean contemMaiusculaMinuscula = false;
-//         String senha = registro.getPassword();
-//         for (int i = 0; i < senha.length(); i++) {
-//                    char letra = senha.charAt(i);
-//
-//                    if (Character.isLowerCase(letra)) {
-//                        contemMinuscula = true;
-//                    }
-//                    if (Character.isUpperCase(letra)) {
-//                        contemMaiuscula = true;
-//                    }
-//         }
-//        if(contemMaiuscula && contemMinuscula) {
-//            contemMaiusculaMinuscula = true;
-//        }
-//        return contemMaiusculaMinuscula;
-//    }
-//}
-
-//FUNCIONANDO naoContemEspacamento
-//        boolean naoContemEspacamento = true;
-//        String senha = registro.getPassword();
-//        for (int i = 0; i < senha.length(); i++) {
-//            char letra = senha.charAt(i);
-//            if (Character.isSpaceChar(letra)) {
-//                naoContemEspacamento = false;
-//                }
-//            }
-//        return naoContemEspacamento;
-
-    //FUNCIONANDO contemCaractereEspecial
-//    boolean contemCaractereEspecial = false;
-//    String senha = registro.getPassword();
-//        for (int i = 0; i < senha.length(); i++) {
-//        char letra = senha.charAt(i);
-//        String specialChars = "!@#$%^&*()-+";
-//        for (int j = 0; j < specialChars.length(); j++) {
-//        char special = specialChars.charAt(j);
-//        if (letra == special) {
-//        contemCaractereEspecial = true;
-//        }
-//        }
-//        }
-//        return contemCaractereEspecial;
-
-
-
-
-
-//        boolean naoContemRepeticao = false;
